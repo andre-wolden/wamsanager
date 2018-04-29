@@ -1,6 +1,7 @@
 #!/bin/bash
 # author: Andre Wolden
 
+export PORT=6060
 export SPRING_DATASOURCE_URL="jdbc:postgresql://localhost/wamsanagerbase"
 export SPRING_DATASOURCE_USERNAME="localuser"
 export SPRING_DATASOURCE_PASSWORD="password"
