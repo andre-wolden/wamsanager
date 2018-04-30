@@ -1,35 +1,56 @@
 package com.wams.wamsanager.controllers;
 
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wams.wamsanager.models.Customer;
+import com.wams.wamsanager.repositories.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/api/v1/customers")
 public class CustomerController {
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    CustomerRepo customerRepo;
 
-    public CustomerController(){
-
+    @RequestMapping("/new")
+    public String newCustomer(){
+        return "customer successfully saved. BOJAA";
     }
 
 
-    @RequestMapping("/test")
-    public String customers(){
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS customers " +
-                "(id SERIAL PRIMARY KEY, " +
-                "name TEXT NOT NULL);");
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public String getAllCustomers(){
 
+        List<Customer> customers = customerRepo.findAll();
 
-        jdbcTemplate.execute("INSERT INTO customers (name) VALUES ('BYGGMAKKER');");
+//        ObjectMapper mapper = new ObjectMapper();
 
+//        try{
+//            mapper.writeValue(new File("/Users/andre.wolden/coding/egne/wamsanager/afroman.json"), customer);
+//
+//        } catch (JsonGenerationException error) {
+//            return "JsonGenerationException" + error.toString();
+//        } catch (JsonMappingException error){
+//            return "JsonMappingException" + error.toString();
+//        } catch (IOException error){
+//            return "IOException" + error.toString();
+//        }
 
-        return "customer successfully saved";
+        return customers.toString();
     }
+
 
 
 

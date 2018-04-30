@@ -1,32 +1,35 @@
 package com.wams.wamsanager.models;
 
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity(name = "customers")
 public class Customer {
 
-    private long id;
+    @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @OneToMany(mappedBy = "customer", targetEntity = Project.class, fetch = FetchType.EAGER)
     private List<Project> projects;
 
 
-    public Customer(String name){
-        this.name = name;
-    }
-
     @Override
     public String toString(){
-        return String.format(
-                "Customer[id=%d, name='%s']",
-                id, name
-        );
+        return "";
     }
 
-    public long getId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -38,10 +41,11 @@ public class Customer {
         this.name = name;
     }
 
-    public Boolean addProject(Project project){
-        projects.add(project);
+    public List<Project> getProjects() {
+        return projects;
+    }
 
-        return true;
-
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
     }
 }
