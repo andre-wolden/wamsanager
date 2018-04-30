@@ -26,12 +26,12 @@ public class CustomerController {
 
     @RequestMapping("/")
     public String customersRoot(){
-      return "Customers Root"
+      return "Customers Root";
     }
 
     @RequestMapping("/new")
     public String newCustomer(){
-        return "Funker hot reloading? ved å trykke build i IntelliJ?";
+        return "My life, for Aiur 33344";
     }
 
 
