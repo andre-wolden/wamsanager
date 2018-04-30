@@ -16,6 +16,11 @@ public class ProjectController {
     @Autowired
     CustomerRepo customerRepo;
 
+    @RequestMapping(value = "/")
+    public String projectsRoot(){
+      return "projects root path";
+    }
+
     @RequestMapping(name = "/all", method = RequestMethod.GET)
     public String getAllProjects(){
         List<Customer> allProjects = customerRepo.findAll();

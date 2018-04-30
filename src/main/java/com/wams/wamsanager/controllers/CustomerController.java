@@ -24,9 +24,14 @@ public class CustomerController {
     @Autowired
     CustomerRepo customerRepo;
 
+    @RequestMapping("/")
+    public String customersRoot(){
+      return "Customers Root"
+    }
+
     @RequestMapping("/new")
     public String newCustomer(){
-        return "customer successfully saved. BOJAA";
+        return "Funker hot reloading? ved å trykke build i IntelliJ?";
     }
 
 
