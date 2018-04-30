@@ -1,6 +1,9 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
 
+
+run_local.sh
+
 ### STS ###
 .apt_generated
 .classpath
