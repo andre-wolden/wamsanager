@@ -18,7 +18,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/")
     public String projectsRoot(){
-      return "projects root path";
+      return "BOJJJJJAAAAA";
     }
 
     @RequestMapping(name = "/all", method = RequestMethod.GET)
