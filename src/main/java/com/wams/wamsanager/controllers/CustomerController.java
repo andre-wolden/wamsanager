@@ -26,12 +26,23 @@ public class CustomerController {
 
     @RequestMapping("/")
     public String customersRoot(){
-      return "Customers Root";
+
+        List<Customer> all = customerRepo.findAll();
+
+        return "Customers Root :) ^^ \n" + all.toString();
     }
 
     @RequestMapping("/new")
     public String newCustomer(){
-        return "My life, for Aiur 33344";
+
+        Customer customer = new Customer();
+        customer.setName("Statoil");
+
+        customerRepo.save(customer);
+
+
+
+        return "My life, for Aiur 33344 /n" + "New Customer registered.";
     }
 
 

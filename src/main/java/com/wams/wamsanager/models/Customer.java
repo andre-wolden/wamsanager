@@ -21,7 +21,8 @@ public class Customer {
 
     @Override
     public String toString(){
-        return "";
+        String string = "{ id: " + this.getId() + ", name: " + this.getName() + "}";
+        return string;
     }
 
 
