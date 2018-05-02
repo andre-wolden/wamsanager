@@ -30,26 +30,9 @@ public class ProjectController {
         return this.customerRepo.findById(Long.parseLong(customerId))
                 .map(customer -> {
                     Project new_project = projectRepo.save(new Project(input.getName(), customer));
-                    return new_project.toString();
+                    System.out.println("New Project added");
+                    return "ksadjfn";
                 }).orElse("asjfn");
-
-
-//        ObjectMapper mapper = new ObjectMapper();
-//
-//        Project project = mapper.readValue(input, Project.class);
-//
-//        List<Customer> allCustomers = customerRepo.findAll();
-//        Customer customer = allCustomers.get(2);
-//
-//        Project newProject = new Project();
-//
-//        newProject.setName("Plan A");
-//        newProject.setCustomer(customer);
-//
-//
-//        projectRepo.save(newProject);
-
-
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
