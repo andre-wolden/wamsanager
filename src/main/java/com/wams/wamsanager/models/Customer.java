@@ -1,6 +1,9 @@
 package com.wams.wamsanager.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,15 +19,18 @@ public class Customer {
     private String name;
 
     @OneToMany(mappedBy = "customer", targetEntity = Project.class, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<Project> projects;
 
 
     @Override
-    public String toString(){
-        String string = "{ id: " + this.getId() + ", name: " + this.getName() + "}";
-        return string;
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", projects=" + projects +
+                '}';
     }
-
 
     public int getId() {
         return id;

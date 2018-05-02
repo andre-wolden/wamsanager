@@ -1,5 +1,7 @@
 package com.wams.wamsanager.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity(name = "projects")
@@ -15,6 +17,7 @@ public class Project {
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
+    @JsonBackReference
     private Customer customer;
 
     public long getId() {
@@ -41,4 +44,12 @@ public class Project {
         this.customer = customer;
     }
 
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", customer=" + customer +
+                '}';
+    }
 }

@@ -2,6 +2,7 @@ package com.wams.wamsanager.controllers;
 
 
 import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wams.wamsanager.models.Customer;
@@ -24,12 +25,19 @@ public class CustomerController {
     @Autowired
     CustomerRepo customerRepo;
 
-    @RequestMapping("/")
-    public String customersRoot(){
+    @RequestMapping(value = "/all", produces = "application/json")
+    public String customersRoot() throws JsonProcessingException {
 
         List<Customer> all = customerRepo.findAll();
 
-        return "Customers Root :) ^^ \n" + all.toString();
+        Customer bekk = all.get(1);
+
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        String s = mapper.writeValueAsString(bekk);
+
+        return s;
     }
 
     @RequestMapping("/new")
@@ -40,34 +48,7 @@ public class CustomerController {
 
         customerRepo.save(customer);
 
-
-
-        return "My life, for Aiur 33344 /n" + "New Customer registered.";
+        return "My life, for Aiur  /n" + "New Customer registered.";
     }
-
-
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public String getAllCustomers(){
-
-        List<Customer> customers = customerRepo.findAll();
-
-//        ObjectMapper mapper = new ObjectMapper();
-
-//        try{
-//            mapper.writeValue(new File("/Users/andre.wolden/coding/egne/wamsanager/afroman.json"), customer);
-//
-//        } catch (JsonGenerationException error) {
-//            return "JsonGenerationException" + error.toString();
-//        } catch (JsonMappingException error){
-//            return "JsonMappingException" + error.toString();
-//        } catch (IOException error){
-//            return "IOException" + error.toString();
-//        }
-
-        return customers.toString();
-    }
-
-
-
 
 }

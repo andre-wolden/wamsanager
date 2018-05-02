@@ -1,13 +1,19 @@
 # WAMSANAGER BACK END
 
-to run:
+to run locally:
 
-mvn clean install
-java -jar target/.....jar
+./run_local.sh
 
-or
+to deploy and run on heroku:
 
-./run.sh
+git add .
+git commit -m "akljfnajkf"
+heroku create
+heroku addons:create heroku-postgresql:hobby-dev
+git push heroku master
 
+(this will run run.sh on heroku)
+
+Will fail atm... need to set up 
 
 peace out
