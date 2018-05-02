@@ -1,6 +1,7 @@
 package com.wams.wamsanager.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -17,8 +18,18 @@ public class Project {
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
-    @JsonBackReference
+//    @JsonBackReference
+    @JsonIgnore
     private Customer customer;
+
+    public Project() {
+
+    }
+
+    public Project(String name, Customer customer) {
+        this.name = name;
+        this.customer = customer;
+    }
 
     public long getId() {
         return id;

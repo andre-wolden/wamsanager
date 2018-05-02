@@ -13,14 +13,15 @@ public class Customer {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(name = "name")
     private String name;
 
     @OneToMany(mappedBy = "customer", targetEntity = Project.class, fetch = FetchType.EAGER)
-    @JsonManagedReference
+//    @JsonManagedReference
     private List<Project> projects;
+
 
 
     @Override
@@ -32,11 +33,11 @@ public class Customer {
                 '}';
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
