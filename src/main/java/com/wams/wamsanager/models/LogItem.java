@@ -11,6 +11,8 @@ public class LogItem {
     @GeneratedValue
     private Long id;
 
+    private String logMessage;
+
     @ManyToOne
     @JsonIgnore
     private Sensor sensor;
@@ -22,9 +24,10 @@ public class LogItem {
     public LogItem() {
     }
 
-    public LogItem(Sensor sensor, Operator operator) {
+    public LogItem(Sensor sensor, Operator operator, String logMessage) {
         this.sensor = sensor;
         this.operator = operator;
+        this.logMessage = logMessage;
     }
 
     public Long getId() {
@@ -45,5 +48,9 @@ public class LogItem {
 
     public void setOperator(Operator operator) {
         this.operator = operator;
+    }
+
+    public String getLogMessage() {
+        return logMessage;
     }
 }

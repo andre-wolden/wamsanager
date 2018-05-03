@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api/v1/mounting_location")
+@RequestMapping(value = "/api/v1/mounting_locations")
 public class MountingLocationController {
 
     @Autowired
@@ -40,6 +40,13 @@ public class MountingLocationController {
         mountingLocationRepo.save(mountingLocationToUpdate);
 
         return "Mounting location successfully updated";
+    }
+
+    @RequestMapping(value = "/{mountingLocationId}/delete", method = RequestMethod.DELETE)
+    public String deleteMountingLocaiton(@PathVariable Long mountingLocationId){
+        mountingLocationRepo.deleteById(mountingLocationId);
+
+        return "Mounting Location successfully deleted";
     }
     
     

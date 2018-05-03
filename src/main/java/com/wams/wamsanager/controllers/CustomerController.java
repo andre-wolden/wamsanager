@@ -1,20 +1,13 @@
 package com.wams.wamsanager.controllers;
 
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wams.wamsanager.models.Customer;
 import com.wams.wamsanager.repositories.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/customers")

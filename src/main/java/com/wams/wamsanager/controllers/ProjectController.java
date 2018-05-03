@@ -36,12 +36,16 @@ public class ProjectController {
     @RequestMapping(value = "/new" ,method = RequestMethod.POST)
     public String addProject(@RequestBody JsonProject jsonProject)  {
 
-        return this.customerRepo.findById(jsonProject.getCustomerId())
-                .map(customer -> {
-                    Project new_project = projectRepo.save(new Project(jsonProject.getName(), customer));
-                    System.out.println("New Project added");
-                    return "ksadjfn";
-                }).orElse("asjfn");
+        projectRepo.save(new Project(jsonProject.getName()));
+
+        return "Project successfully saved";
+
+
+//        return this.customerRepo.findById(jsonProject.getCustomerId())
+//                .map(customer -> {
+//                    projectRepo.save(new Project(jsonProject.getName()));
+//                    return "Project added successfully...";
+//                }).orElse("Oops. Something went wrong..");
     }
 
     @RequestMapping(value = "{projectId}/update", method = RequestMethod.PATCH)

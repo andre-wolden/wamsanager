@@ -21,9 +21,8 @@ public class Project {
 
     }
 
-    public Project(String name, Customer customer) {
+    public Project(String name) {
         this.name = name;
-        this.customer = customer;
     }
 
     public long getId() {

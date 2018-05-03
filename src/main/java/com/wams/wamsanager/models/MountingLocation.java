@@ -41,4 +41,12 @@ public class MountingLocation {
     public void setMountingLocation(String mountingLocation) {
         this.mountingLocation = mountingLocation;
     }
+
+    public Set<Sensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(Set<Sensor> sensors) {
+        this.sensors = sensors;
+    }
 }

@@ -43,6 +43,10 @@ public class Sensor {
     public Sensor() {
     }
 
+    public Sensor(String sn) {
+        this.sn = sn;
+    }
+
     public Sensor(String sn
             , String calibrationCertificate
             , PartNumber partNumber
@@ -61,6 +65,10 @@ public class Sensor {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getSn() {
