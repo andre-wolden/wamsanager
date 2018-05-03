@@ -1,24 +1,19 @@
 package com.wams.wamsanager.models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
-@Entity(name = "projects")
+@Entity
 public class Project {
 
     @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private long id;
 
-    @Column(name = "name")
     private String name;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "customer_id")
-//    @JsonBackReference
+    @ManyToOne
     @JsonIgnore
     private Customer customer;
 
@@ -33,10 +28,6 @@ public class Project {
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -55,12 +46,8 @@ public class Project {
         this.customer = customer;
     }
 
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", customer=" + customer +
-                '}';
+
+    public long getCustomerId(){
+        return this.customer.getId();
     }
 }

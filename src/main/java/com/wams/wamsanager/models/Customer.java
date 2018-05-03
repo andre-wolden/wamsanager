@@ -1,44 +1,33 @@
 package com.wams.wamsanager.models;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-@Entity(name = "customers")
+@Entity
 public class Customer {
 
     @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue
+    private Long id;
 
-    @Column(name = "name")
+    @Column
     private String name;
 
-    @OneToMany(mappedBy = "customer", targetEntity = Project.class, fetch = FetchType.EAGER)
-//    @JsonManagedReference
-    private List<Project> projects;
+    @OneToMany
+    private Set<Project> projects = new HashSet<>();
 
+    public Customer() {
+    }
 
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", projects=" + projects +
-                '}';
+    public Customer(String name, Set<Project> projects) {
+        this.name = name;
+        this.projects = projects;
     }
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -49,11 +38,11 @@ public class Customer {
         this.name = name;
     }
 
-    public List<Project> getProjects() {
+    public Set<Project> getProjects() {
         return projects;
     }
 
-    public void setProjects(List<Project> projects) {
+    public void setProjects(Set<Project> projects) {
         this.projects = projects;
     }
 }

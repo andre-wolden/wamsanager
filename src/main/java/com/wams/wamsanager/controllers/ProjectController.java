@@ -1,21 +1,18 @@
 package com.wams.wamsanager.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wams.wamsanager.JsonModels.JsonProject;
 import com.wams.wamsanager.models.Customer;
 import com.wams.wamsanager.models.Project;
 import com.wams.wamsanager.repositories.CustomerRepo;
 import com.wams.wamsanager.repositories.ProjectRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
-import java.net.URI;
-import java.util.List;
+import java.util.Collection;
 
 @RestController
-@RequestMapping("/api/v1/customers/{customerId}/projects")
+@RequestMapping("/api/v1/projects")
 public class ProjectController {
 
     @Autowired
@@ -23,28 +20,39 @@ public class ProjectController {
     @Autowired
     CustomerRepo customerRepo;
 
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public Collection<Project> allProjects() throws IOException {
+        return projectRepo.findAll();
+    }
+
+    @RequestMapping(value = "/{projectId}", method = RequestMethod.GET)
+    public Project getProjectById(@PathVariable Long projectId){
+        return projectRepo.findById(projectId)
+                .orElse(new Project());
+    }
+
+
     @RequestMapping(value = "/new" ,method = RequestMethod.POST)
-    public String projectsRoot(@PathVariable String customerId, @RequestBody Project input) throws IOException {
+    public String addProject(@RequestBody JsonProject jsonProject)  {
 
-
-        return this.customerRepo.findById(Long.parseLong(customerId))
+        return this.customerRepo.findById(jsonProject.getCustomerId())
                 .map(customer -> {
-                    Project new_project = projectRepo.save(new Project(input.getName(), customer));
+                    Project new_project = projectRepo.save(new Project(jsonProject.getName(), customer));
                     System.out.println("New Project added");
                     return "ksadjfn";
                 }).orElse("asjfn");
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public String getAllProjects() throws JsonProcessingException {
-        List<Project> allProjects = projectRepo.findAll();
+    @RequestMapping(value = "{projectId}/update", method = RequestMethod.PATCH)
+    public String updateProject(@PathVariable long projectId, @RequestBody JsonProject jsonProject){
 
-        Project project = allProjects.get(1);
+        Project projectToUpdate = projectRepo.getOne(projectId);
+        projectToUpdate.setName(jsonProject.getName());
+        Customer customer = customerRepo.getOne(jsonProject.getCustomerId());
+        projectToUpdate.setCustomer(customer);
+        projectRepo.save(projectToUpdate);
 
-        ObjectMapper mapper = new ObjectMapper();
-
-        String s = mapper.writeValueAsString(project);
-
-        return s;
+        return "project successfully updated...";
     }
 }

@@ -9,13 +9,11 @@ import com.wams.wamsanager.models.Customer;
 import com.wams.wamsanager.repositories.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -26,29 +24,24 @@ public class CustomerController {
     CustomerRepo customerRepo;
 
     @RequestMapping(value = "/all", produces = "application/json")
-    public String customersRoot() throws JsonProcessingException {
+    public Collection<Customer> allCustomers() throws JsonProcessingException {
 
-        List<Customer> all = customerRepo.findAll();
-
-        Customer bekk = all.get(1);
-
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        String s = mapper.writeValueAsString(bekk);
-
-        return s;
+        return customerRepo.findAll();
     }
 
-    @RequestMapping("/new")
-    public String newCustomer(){
+    @RequestMapping(value = "/{customerId}", method = RequestMethod.GET)
+    public Customer getCustomerById(@PathVariable Long customerId){
+        return customerRepo.findById(customerId).orElse(new Customer());
+    }
 
-        Customer customer = new Customer();
-        customer.setName("Statoil");
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    public String addCustomer(@RequestBody Customer input_customer){
+
+        Customer customer = input_customer;
 
         customerRepo.save(customer);
 
-        return "My life, for Aiur  /n" + "New Customer registered.";
+        return "New customer registrated...";
     }
 
 }
