@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>wamsanager</name>
-    <sensorType>phase two wams sensor manager</sensorType>
+    <description>phase two wams sensor manager</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
