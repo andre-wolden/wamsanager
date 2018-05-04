@@ -1,5 +1,6 @@
 package com.wams.wamsanager.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -21,23 +22,18 @@ public class Sensor {
     private String calibrationCertificate;
 
     @ManyToOne
-//    @JsonIgnore
     private PartNumber partNumber;
 
     @ManyToOne
-//    @JsonIgnore
     private SensorType sensorType;
 
     @ManyToOne
-//    @JsonIgnore
     private Project project;
 
     @ManyToOne
-//    @JsonIgnore
     private StatusCode statusCode;
 
     @ManyToOne
-//    @JsonIgnore
     private MountingLocation mountingLocation;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, fetch = FetchType.EAGER)

@@ -71,7 +71,8 @@ public class SensorController {
 
     @RequestMapping(value = "/{sensorId}", method = RequestMethod.GET)
     public Sensor getSensorById(@PathVariable Long sensorId){
-        return sensorRepo.findById(sensorId).orElse(new Sensor());
+        Sensor sensor = sensorRepo.findById(sensorId).orElse(new Sensor());
+        return sensor;
     }
 
     @RequestMapping(value = "/{sensorId}/update", method = RequestMethod.PATCH)
@@ -105,7 +106,7 @@ public class SensorController {
 
         Sensor sensorToUpdate = sensorRepo.getOne(sensorId);
 
-        if (sensorToUpdate.getStatusCode().getStep().equals(5)){
+        if (sensorToUpdate.getStatusCode().getStep().equals(5) && sensorToUpdate.getCalibrationCertificate() != null ){
 
             sensorToUpdate.setCalibrationCertificate(input.getCalibrationCertificate());
             sensorRepo.save(sensorToUpdate);
@@ -312,6 +313,15 @@ public class SensorController {
         return "Successfully updated sensor : decremented status";
     }
 
+    @RequestMapping(value = "/{sensorId}/log", method = RequestMethod.GET)
+    public List<LogItem> getLogForSensor(@PathVariable Long sensorId){
+
+        Sensor sensor = sensorRepo.getOne(sensorId);
+        List<LogItem> logItems = logItemRepo.findBySensor(sensor);
+
+        return logItems;
+
+    }
 }
 
 

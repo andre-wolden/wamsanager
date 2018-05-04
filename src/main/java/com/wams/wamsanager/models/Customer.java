@@ -18,7 +18,6 @@ public class Customer {
     private String name;
 
     @OneToMany
-    @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
     public Customer() {

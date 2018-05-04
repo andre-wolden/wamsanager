@@ -14,7 +14,7 @@ public class LogItem {
     @Column
     private String logMessage;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JsonIgnore
     private Sensor sensor;
 
