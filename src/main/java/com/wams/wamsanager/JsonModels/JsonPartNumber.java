@@ -8,11 +8,6 @@ public class JsonPartNumber {
     public JsonPartNumber() {
     }
 
-    public JsonPartNumber(String pn, String calibrationProcedure) {
-        this.pn = pn;
-        this.calibrationProcedure = calibrationProcedure;
-    }
-
     public String getPn() {
         return pn;
     }

@@ -15,7 +15,7 @@ public class PartNumberController {
     @Autowired
     PartNumberRepo partNumberRepo;
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
     public List<PartNumber> allPartNumbers(){
         return partNumberRepo.findAll();
     }
@@ -28,7 +28,7 @@ public class PartNumberController {
 
     @RequestMapping(value = "/{partNumberId}", method = RequestMethod.GET)
     public PartNumber getPartNumberById(@PathVariable Long partNumberId){
-        return partNumberRepo.getOne(partNumberId);
+        return partNumberRepo.findById(partNumberId).orElse(new PartNumber());
     }
 
     @RequestMapping(value = "/{partNumberId}/update", method = RequestMethod.PATCH)

@@ -2,12 +2,14 @@ package com.wams.wamsanager.controllers;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.wams.wamsanager.JsonModels.JsonCustomer;
 import com.wams.wamsanager.models.Customer;
 import com.wams.wamsanager.repositories.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/customers")
@@ -16,8 +18,8 @@ public class CustomerController {
     @Autowired
     CustomerRepo customerRepo;
 
-    @RequestMapping(value = "/all", produces = "application/json")
-    public Collection<Customer> allCustomers() throws JsonProcessingException {
+    @RequestMapping(value = "/all", method = RequestMethod.GET , produces = "application/json")
+    public List<Customer> allCustomers() {
 
         return customerRepo.findAll();
     }
@@ -28,11 +30,9 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String addCustomer(@RequestBody Customer input_customer){
+    public String addCustomer(@RequestBody JsonCustomer jsonCustomer){
 
-        Customer customer = input_customer;
-
-        customerRepo.save(customer);
+        customerRepo.save(new Customer(jsonCustomer.getName()));
 
         return "New customer registrated...";
     }

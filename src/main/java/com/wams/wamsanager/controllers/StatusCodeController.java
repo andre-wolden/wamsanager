@@ -31,7 +31,7 @@ public class StatusCodeController {
 
     @RequestMapping(value = "/{statusCodeId}", method = RequestMethod.GET)
     public StatusCode getStatusCodeById(@PathVariable Long statusCodeId){
-        return statusCodeRepo.getOne(statusCodeId);
+        return statusCodeRepo.findById(statusCodeId).orElse(new StatusCode());
     }
 
     @RequestMapping(value = "/{statusCodeId}/update", method = RequestMethod.PATCH)

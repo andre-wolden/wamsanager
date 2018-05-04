@@ -1,6 +1,8 @@
 package com.wams.wamsanager.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,23 +12,23 @@ public class Customer {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     @Column
     private String name;
 
     @OneToMany
+    @JsonIgnore
     private Set<Project> projects = new HashSet<>();
 
     public Customer() {
     }
 
-    public Customer(String name, Set<Project> projects) {
+    public Customer(String name) {
         this.name = name;
-        this.projects = projects;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 

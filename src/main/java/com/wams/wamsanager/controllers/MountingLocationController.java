@@ -29,8 +29,8 @@ public class MountingLocationController {
     }
     
     @RequestMapping(value = "/{mountingLocationId}", method = RequestMethod.GET)
-    public Optional<MountingLocation> getMountingLocationById(@PathVariable Long mountingLocationId){
-        return mountingLocationRepo.findById(mountingLocationId);
+    public MountingLocation getMountingLocationById(@PathVariable Long mountingLocationId){
+        return mountingLocationRepo.findById(mountingLocationId).orElse(new MountingLocation());
     }
 
     @RequestMapping(value = "/{mountingLocationId}/update", method = RequestMethod.PATCH)

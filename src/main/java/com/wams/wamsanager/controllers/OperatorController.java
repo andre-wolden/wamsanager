@@ -28,7 +28,7 @@ public class OperatorController {
 
     @RequestMapping(value = "/{operatorId}", method = RequestMethod.GET)
     public Operator getOperatorById(@PathVariable Long operatorId){
-        return operatorRepo.getOne(operatorId);
+        return operatorRepo.findById(operatorId).orElse(new Operator());
     }
 
     @RequestMapping(value = "/{operatorId}/update", method = RequestMethod.PATCH)

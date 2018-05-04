@@ -3,19 +3,25 @@ package com.wams.wamsanager.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Project {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
+    @Column
     private String name;
 
     @ManyToOne
-    @JsonIgnore
     private Customer customer;
+
+    @OneToMany
+    @JsonIgnore
+    Set<Sensor> sensors = new HashSet<>();
 
     public Project() {
 
@@ -25,7 +31,7 @@ public class Project {
         this.name = name;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -45,8 +51,4 @@ public class Project {
         this.customer = customer;
     }
 
-
-    public long getCustomerId(){
-        return this.customer.getId();
-    }
 }

@@ -29,7 +29,7 @@ public class SensorTypeController {
 
     @RequestMapping(value = "/{sensorTypeId}", method = RequestMethod.GET)
     public SensorType getSensorTypeById(@PathVariable Long sensorTypeId){
-        return sensorTypeRepo.getOne(sensorTypeId);
+        return sensorTypeRepo.findById(sensorTypeId).orElse(new SensorType());
     }
 
     @RequestMapping(value = "/{sensorTypeId}/update", method = RequestMethod.PATCH)

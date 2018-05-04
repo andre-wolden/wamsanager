@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -13,32 +14,34 @@ public class Sensor {
     @GeneratedValue
     private Long id;
 
+    @Column
     private String sn;
 
+    @Column
     private String calibrationCertificate;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     private PartNumber partNumber;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     private SensorType sensorType;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     private Project project;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     private StatusCode statusCode;
 
     @ManyToOne
-    @JsonIgnore
+//    @JsonIgnore
     private MountingLocation mountingLocation;
 
-    @OneToMany
-    Set<LogItem> logItems = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval=true, fetch = FetchType.EAGER)
+    private Set<LogItem> logItems; //= new HashSet<>();
 
     public Sensor() {
     }
@@ -134,4 +137,6 @@ public class Sensor {
     public void setLogItems(Set<LogItem> logItems) {
         this.logItems = logItems;
     }
+
+
 }

@@ -2,16 +2,10 @@ package com.wams.wamsanager.JsonModels;
 
 public class JsonProject {
 
-    private long id;
     private String name;
-    private long customerId;
+    private Long customerId;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public JsonProject() {
     }
 
     public String getName() {
@@ -22,11 +16,11 @@ public class JsonProject {
         this.name = name;
     }
 
-    public long getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(long customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 }

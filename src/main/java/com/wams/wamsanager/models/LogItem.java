@@ -11,14 +11,14 @@ public class LogItem {
     @GeneratedValue
     private Long id;
 
+    @Column
     private String logMessage;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     private Sensor sensor;
 
     @ManyToOne
-    @JsonIgnore
     private Operator operator;
 
     public LogItem() {
@@ -53,4 +53,14 @@ public class LogItem {
     public String getLogMessage() {
         return logMessage;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setLogMessage(String logMessage) {
+        this.logMessage = logMessage;
+    }
+
+
 }

@@ -8,11 +8,6 @@ public class JsonMountingLocation {
     public JsonMountingLocation() {
     }
 
-    public JsonMountingLocation(Long id, String mountingLocation) {
-        this.id = id;
-        this.mountingLocation = mountingLocation;
-    }
-
     public Long getId() {
         return id;
     }

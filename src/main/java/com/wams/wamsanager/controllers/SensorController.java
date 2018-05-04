@@ -1,13 +1,12 @@
 package com.wams.wamsanager.controllers;
 
 import com.wams.wamsanager.JsonModels.JsonSensor;
-import com.wams.wamsanager.models.LogItem;
-import com.wams.wamsanager.models.Operator;
-import com.wams.wamsanager.models.Sensor;
+import com.wams.wamsanager.models.*;
 import com.wams.wamsanager.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -52,6 +51,10 @@ public class SensorController {
 
         Sensor newSensor = new Sensor(jsonSensor.getSn());
 
+        StatusCode initialStep = statusCodeRepo.findByStep(1);
+
+        newSensor.setStatusCode(initialStep);
+
         sensorRepo.save(newSensor);
 
         Sensor savedSensor = sensorRepo.findBySn(newSensor.getSn());
@@ -68,7 +71,7 @@ public class SensorController {
 
     @RequestMapping(value = "/{sensorId}", method = RequestMethod.GET)
     public Sensor getSensorById(@PathVariable Long sensorId){
-        return sensorRepo.getOne(sensorId);
+        return sensorRepo.findById(sensorId).orElse(new Sensor());
     }
 
     @RequestMapping(value = "/{sensorId}/update", method = RequestMethod.PATCH)
@@ -102,7 +105,7 @@ public class SensorController {
 
         Sensor sensorToUpdate = sensorRepo.getOne(sensorId);
 
-        if (sensorToUpdate.getStatusCode().getStep().equals(4)){
+        if (sensorToUpdate.getStatusCode().getStep().equals(5)){
 
             sensorToUpdate.setCalibrationCertificate(input.getCalibrationCertificate());
             sensorRepo.save(sensorToUpdate);
@@ -110,7 +113,7 @@ public class SensorController {
 
             List<Operator> operators = operatorRepo.findAll();
             Operator operator = operators.get(0);
-            String logMessage = String.format("Sensor with SN: %s was updated by operator: %s. " +
+            String logMessage = String.format("Sensor with serial number %s was updated by operator %s. " +
                             "Calibration Certificate registered: %s.",
                     sensorToUpdate.getSn(),
                     operator.getName(),
@@ -123,22 +126,30 @@ public class SensorController {
 
         } else {
 
-            return "Successfully updated sensor : part number";
+            return "This is not the time to do this ...";
         }
     }
 
     @RequestMapping(value = "/{sensorId}/updatePartNumber", method = RequestMethod.PATCH)
     public String updatePartNumber(@PathVariable Long sensorId, @RequestBody JsonSensor input){
 
+        String oldPartNumber;
+
         Sensor sensorToUpdate = sensorRepo.getOne(sensorId);
-        String oldPartNumber = sensorToUpdate.getPartNumber().getPn();
+
+        if (sensorToUpdate.getPartNumber() != null){
+            oldPartNumber = sensorToUpdate.getPartNumber().getPn();
+        } else {
+            oldPartNumber = "Na";
+        }
+
         sensorToUpdate.setPartNumber(partNumberRepo.getOne(input.getPartNumberId()));
         sensorRepo.save(sensorToUpdate);
         String newPartNumber = sensorToUpdate.getPartNumber().getPn();
 
         List<Operator> operators = operatorRepo.findAll();
         Operator operator = operators.get(0);
-        String logMessage = String.format("Sensor with SN: %s was updated by operator: %s. Partnumber changed from %s to %s.",
+        String logMessage = String.format("Sensor with serial number %s was updated by operator %s. Partnumber changed from %s to %s.",
                 sensorToUpdate.getSn(),
                 operator.getName(),
                 oldPartNumber,
@@ -152,15 +163,23 @@ public class SensorController {
     @RequestMapping(value = "/{sensorId}/updateSensorType", method = RequestMethod.PATCH)
     public String updateSensorType(@PathVariable Long sensorId, @RequestBody JsonSensor input){
 
+        String oldSensorType;
+
         Sensor sensorToUpdate = sensorRepo.getOne(sensorId);
-        String oldSensorType = sensorToUpdate.getSensorType().getSensorType();
+
+        if (sensorToUpdate.getSensorType() != null) {
+            oldSensorType = sensorToUpdate.getSensorType().getSensorType();
+        } else {
+            oldSensorType = "Na";
+        }
+
         sensorToUpdate.setSensorType(sensorTypeRepo.getOne(input.getSensorTypeId()));
         sensorRepo.save(sensorToUpdate);
         String newSensorType = sensorToUpdate.getSensorType().getSensorType();
 
         List<Operator> operators = operatorRepo.findAll();
         Operator operator = operators.get(0);
-        String logMessage = String.format("Sensor with SN: %s was updated by operator: %s. Sensor Type changed from %s to %s.",
+        String logMessage = String.format("Sensor with serial number: %s was updated by operator %s. Sensor Type changed from %s to %s.",
                 sensorToUpdate.getSn(),
                 operator.getName(),
                 oldSensorType,
@@ -174,15 +193,23 @@ public class SensorController {
     @RequestMapping(value = "/{sensorId}/updateProject", method = RequestMethod.PATCH)
     public String updateProject(@PathVariable Long sensorId, @RequestBody JsonSensor input){
 
+        String oldProject;
+
         Sensor sensorToUpdate = sensorRepo.getOne(sensorId);
-        String oldProject = sensorToUpdate.getProject().getName();
+
+        if (sensorToUpdate.getProject() != null){
+            oldProject = sensorToUpdate.getProject().getName();
+        } else {
+            oldProject = "Na";
+        }
+
         sensorToUpdate.setProject(projectRepo.getOne(input.getProjectId()));
         sensorRepo.save(sensorToUpdate);
         String newProject = sensorToUpdate.getProject().getName();
 
         List<Operator> operators = operatorRepo.findAll();
         Operator operator = operators.get(0);
-        String logMessage = String.format("Sensor with SN: %s was updated by operator: %s. Project changed from %s to %s.",
+        String logMessage = String.format("Sensor with serial number %s was updated by operator %s. Project changed from %s to %s.",
                 sensorToUpdate.getSn(),
                 operator.getName(),
                 oldProject,
@@ -196,15 +223,23 @@ public class SensorController {
     @RequestMapping(value = "/{sensorId}/updateMountingLocation", method = RequestMethod.PATCH)
     public String updateMountingLocation(@PathVariable Long sensorId, @RequestBody JsonSensor input){
 
+        String oldMountingLocation;
+
         Sensor sensorToUpdate = sensorRepo.getOne(sensorId);
-        String oldMountingLocation = sensorToUpdate.getMountingLocation().getMountingLocation();
+
+        if (sensorToUpdate.getMountingLocation() != null ){
+            oldMountingLocation = sensorToUpdate.getMountingLocation().getMountingLocation();
+        } else {
+            oldMountingLocation = "Na";
+        }
+
         sensorToUpdate.setMountingLocation(mountingLocationRepo.getOne(input.getMountingLocationId()));
         sensorRepo.save(sensorToUpdate);
         String newMountingLocation = sensorToUpdate.getMountingLocation().getMountingLocation();
 
         List<Operator> operators = operatorRepo.findAll();
         Operator operator = operators.get(0);
-        String logMessage = String.format("Sensor with SN: %s was updated by operator: %s. Mounting Location changed from %s to %s.",
+        String logMessage = String.format("Sensor with serial number %s was updated by operator %s. Mounting Location changed from %s to %s.",
                 sensorToUpdate.getSn(),
                 operator.getName(),
                 oldMountingLocation,
@@ -218,15 +253,25 @@ public class SensorController {
     @RequestMapping(value = "/{sensorId}/incrementStatus", method = RequestMethod.PATCH)
     public String incrementStatus(@PathVariable Long sensorId, @RequestBody JsonSensor input){
 
+        // TODO: Fix slik at man ikke kan steppe fra 5 til 6 uten å ha registrert CC.
+
+        String oldStatus;
+
         Sensor sensorToUpdate = sensorRepo.getOne(sensorId);
-        String oldStatus = sensorToUpdate.getStatusCode().getCurrentStatus();
+
+        if (sensorToUpdate.getStatusCode() != null){
+            oldStatus = sensorToUpdate.getStatusCode().getCurrentStatus();
+        } else {
+            oldStatus = "Na";
+        }
+
         sensorToUpdate.setStatusCode(statusCodeRepo.getOne(input.getStatusCodeId()));
         sensorRepo.save(sensorToUpdate);
         String newStatus = sensorToUpdate.getStatusCode().getCurrentStatus();
 
         List<Operator> operators = operatorRepo.findAll();
         Operator operator = operators.get(0);
-        String logMessage = String.format("Sensor with SN: %s was updated by operator: %s. Decremented from %s to %s.",
+        String logMessage = String.format("Sensor with serial number %s was updated by operator %s. Decremented from %s to %s.",
                 sensorToUpdate.getSn(),
                 operator.getName(),
                 oldStatus,
@@ -240,15 +285,23 @@ public class SensorController {
     @RequestMapping(value = "/{sensorId}/decrementStatus", method = RequestMethod.PATCH)
     public String decrementStatus(@PathVariable Long sensorId, @RequestBody JsonSensor input){
 
+        String oldStatus;
+
         Sensor sensorToUpdate = sensorRepo.getOne(sensorId);
-        String oldStatus = sensorToUpdate.getStatusCode().getCurrentStatus();
+
+        if (sensorToUpdate.getStatusCode() != null){
+            oldStatus = sensorToUpdate.getStatusCode().getCurrentStatus();
+        } else {
+            oldStatus = "Na";
+        }
+
         sensorToUpdate.setStatusCode(statusCodeRepo.getOne(input.getStatusCodeId()));
         sensorRepo.save(sensorToUpdate);
         String newStatus = sensorToUpdate.getStatusCode().getCurrentStatus();
 
         List<Operator> operators = operatorRepo.findAll();
         Operator operator = operators.get(0);
-        String logMessage = String.format("Sensor with SN: %s was updated by operator: %s. Incremented from %s to %s.",
+        String logMessage = String.format("Sensor with serial number %s was updated by operator %s. Incremented from %s to %s.",
                 sensorToUpdate.getSn(),
                 operator.getName(),
                 oldStatus,

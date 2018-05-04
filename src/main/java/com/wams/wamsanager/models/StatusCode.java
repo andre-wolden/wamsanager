@@ -1,9 +1,8 @@
 package com.wams.wamsanager.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,13 +13,17 @@ public class StatusCode {
     @GeneratedValue
     private Long id;
 
+    @Column
     private Integer step;
 
+    @Column
     private String currentStatus;
 
+    @Column
     private String nextAction;
 
     @OneToMany
+    @JsonIgnore
     Set<Sensor> sensors = new HashSet<>();
 
     public StatusCode() {
